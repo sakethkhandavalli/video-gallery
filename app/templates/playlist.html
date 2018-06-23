@@ -1,0 +1,104 @@
+dit <!DOCTYPE html>
+<html>
+	<head>
+		<script src="/../static/js/vendor/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="/../static/js/vendor/handlebars.min.js"></script>
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<title align='center'>{{ playlist_title }}</title>
+		<script src='../../static/js/dash.js'></script>
+		<script src='../../static/js/dash2.js'></script>
+		<script src='../../static/js/auth-manager.js'></script>
+		<style>
+.imgContainer{
+	float:left;
+}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav">
+						<li><img src="../../static/css/vd_short.png" style="height:50px"></img></li>
+						<li><a class="navbar-brand" id="front_logo">&nbsp;&nbsp; Video Gallery</a></li>
+					</ul>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a id="front_home">Home</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="logout" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+		<div>
+			<form id='suri-delete-url-local'>
+				<fieldset>
+					<legend style='font-weight:bold'>Delete a URL from a playlist</legend>
+					<table>
+						<tr>
+							<td>
+								<select name="url_id">
+									{% for i in range(arr_urls_length) %}
+									<option name="url_id" value="{{url_ids[i]}}">{{url_titles[i]}}</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<input type="hidden" name="playlist_id" value="{{ playlist_id }}"/>
+							</td>
+						</tr>
+						<br/><br/>
+						<tr>
+							<td wi %><button type='button' value='Delete2 !!' onclick='AjaxDeleteSuriLocal()'>Delete !!</button></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+		<div>
+			<form id='suri-edit-url-global' method='POST'>
+				<fieldset>
+					<legend style='font-weight:bold'>Edit a URL</legend>
+					<table>
+						<tr>
+							<td>
+								<select name="url_id">
+									{% for i in range(arr_urls_length)%}
+										<option name="url_id" value="{{url_ids[i]}}">{{saketh[i].name}}</option>
+									{% endfor %}
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td width='40%'><input type='text' name='url_name' placeholder="Enter the New Name"/></td>
+						</tr>
+						<tr>
+							<td wi %><input type='button' value='Edit' onclick='AjaxEditUrlglobal()'/></td>
+						</tr>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+		<div>
+			<form id='creator'method="POST">
+				<fieldset>
+					<legend style='font-weight:bold'>{{ playlist_title }}</legend>
+					<table id="playlist_table">
+						<button type="button" onclick='GetImages({{ arr_urls }},playlist_table,{{ url_titles }})'>Get Images</button>
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>

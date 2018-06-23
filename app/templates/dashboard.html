@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<script src="/../static/js/vendor/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="/../static/js/vendor/handlebars.min.js"></script>
+		<script src='../../static/js/dash.js'></script>
+		<script src='../../static/js/dash2.js'></script>
+		<script src='../../static/js/auth-manager.js'></script>
+    <!-- <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
+		<!-- <link href="http://netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet"> -->
+		<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<title align='center'>Dash Board</title>
+		<script src='../../static/js/dash.js'></script>
+		<script src='../../static/js/auth-manager.js'></script>
+		<style type="text/css">
+.sidepane{
+	padding-top: 20px;
+	font-size: 17px;
+}
+
+.imgContainer{
+	float:left;
+}
+			html{
+				overflow-x:scroll;
+			}
+			a:hover{
+				color: #fff;
+				/*border-bottom: none;*/
+				text-decoration: none;
+
+			}
+
+			a{
+				color: #9e9e9e ;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body style="overflow-x: hidden;">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<ul class="nav navbar-nav">
+						<li><a class="navbar-brand" id="front_logo">&nbsp;&nbsp; Video Gallery</a></li>
+					</ul>
+				</div>
+				<ul class="nav navbar-nav">
+					<li class="active"><a id="front_home">Home</a></li>
+					<li class="nav-item" style="padding-top: 10px; padding-left: 30px">
+	                    <form class="form-inline my-2 my-lg-0 mr-lg-2">
+	                        <div class="input-group">
+	                            <input type="text" id="search-item" class="form-control" placeholder="Search and play for a video...">
+	                            <span class="input-group-btn">
+				<button class="btn btn-primary" type="button" id="srch" value='Play !!' onclick='Search({{arr_urls}},{{urls}})'><i class="fa fa-search"></i></button>
+	                    </span>
+	                        </div>
+	                    </form>
+                	</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="logout" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+				</ul>
+			</div>
+		</nav>
+		<br/>
+		<div class="row" style="padding-top: 31px">
+			<div class="col-sm-3" id="lefty" style="background-color: #263238; height: 1000px;">
+				<ul >
+					<li class="sidepane"><a class="sideanchors" onclick="hide()" data-toggle="modal" data-target="#Modal1" href="#Modal1">Create A Playlist</a></li>
+					<li class="sidepane"><a class="sideanchors" onclick="hide()" data-toggle="modal" data-target="#Modal6" href="#Modal6">Rename A Playlist</a></li>
+					<li class="sidepane"><a class="sideanchors" onclick="hide()" data-toggle="modal" data-target="#Modal2" href="#Modal2">Add a Video to a Playlist</a></li>
+					<li class="sidepane"><a class="sideanchors" onclick="hide()" data-toggle="modal" data-target="#Modal7" href="#Modal7">Add a Video</a></li>
+					<li class="sidepane"><a class="sideanchors" onclick="show()" href="#">Play a Video</a></li>
+					<li class="sidepane"><a class="sideanchors" data-toggle="modal" onclick="hide()" data-target="#Modal3" href="#Modal3">Delete Playlist</a></li>
+					<li class="sidepane"><a class="sideanchors" onclick="hide()" data-toggle="modal" data-target="#Modal5" href="#Modal5">Delete a Video from a Playlist</a></li>
+					<li class="sidepane"><a class="sideanchors" data-toggle="modal" onclick="hide()" data-target="#Modal4" href="#Modal4">Delete a Video from all Playlists</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9 divset" id="righty">
+				<div id='task-1' class="hidden shide" >
+					<div id='1'>
+						<legend style='font-weight:bold'>Place your Url here !!!</legend>
+						<input type='text' id='urlPlay' placeholder="Place your Url here"/>
+					</div>
+					<br/>
+					<div id='2'>
+						<table>
+							<tr>
+								<td width='40%'><input id="btn1" type='submit' value="playVideo"/></td>
+								<td width='40%'><input type='submit' value="LoopIt" onclick="PlayVideoLoop()"/></td>
+							</tr>
+						</table>
+					</div>
+					<script>$('#btn1').on('click',function(){Fader();})</script>
+				</div>
+				<div id='playerDiv' style='display:none' align='center'>
+		  		<div width='65%'>
+			  		<button class="btn btn-danger" align='center' type='button' onclick='PlayerClose()'>Close</button>
+		  		</div>
+		 		 <br/>
+		  		<iframe id='iframe' width="600" height='500' style='box-shadow: 10px 10px 5px grey'>
+		  			</iframe>
+		  		<br/>
+		  		<br/>
+		  		<div align='center' id='Next' style='display:none'>
+			  		<table width='65%' align='center'>
+				  		<tr>
+					  		<td align='center'><button type='button' id='P'onclick='Previous({{urls}},{{arr_urls}})'>Previous</button></td>
+					  		<td align='center'><button type='button' id='N' onclick='Next({{urls}},{{arr_urls}})'>Next</button></td>
+				  		</tr>
+			  		</table>
+		  		</div>
+	  			</div>
+	  			<div id='ytplayer' align='center' style="display: none;">
+		 			 <div width='65%' id='tss' style='display:none;'>
+			  			<button align='center' class="btn btn-danger" type='button' onclick='PlayerClose()'>Close</button>
+					  </div>
+		  		<script id='Tough'></script>
+	  			</div>
+				<br>
+				<div id='StartEnd' style='display:none'>
+				<h4>Do You Want Start and End time ???</h4>
+				<table>
+					<tr>
+						<td width='40%'><button value="yes" onclick="Fader2()">Yes</button></td>
+						<td width='40%'><button value="no" onclick="PlayVideo()">No</button></td>
+						<tr/>
+				</table>
+			</div>
+			<div id='Starter' style="display:none">
+				<h4>Enter Start and End times in the input Boxes:</h4>
+				<table>
+					<tr height='20%'>
+						<td width='40%'><input type='text' id='st' placeholder="Enter Start Time(seconds)"/></td>
+						<td width='40%'><input type='text' id='end' placeholder="Enter End Time"/></td>
+					</tr>
+					<tr>
+						<td><br></td>
+					</tr>
+					<tr>
+						<td width="40%"><input type='submit' value="Start Playing"onclick='PlayStart()'/></td>
+					</tr>
+				</table>
+			</div>
+				<div id='all'>
+			{% for i in range(no_playlists) %}
+			<div id ="playlist_" + "{{arr_ids[i]}}" >
+				<fieldset>
+					<label style="font-weight:bold"><h2>{{arr_titles[i]}}</h2></label>
+					<table id="{{arr_ids[i]}}">
+					</table>
+					<br/>
+					<br/>
+				</fieldset>
+			</div>
+			{% endfor %}
+				</div>
+
+			</div>
+		</div>
+
+		<div class="modal fade" id="Modal7">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Add Video to all Playlists </b></h4>
+					</div>
+					<div class="modal-body">
+							<form id='AddFL'method="POST">
+  								<label class="col-md-4 control-label" for="textinput">URL </label>
+  										<input id="textinput" name="url" placeholder="Enter url here" class="form-control input-md" type="text">
+  										<br>
+  								<label class="col-md-4 control-label" for="textinput">Name</label>
+  										<input id="textinput" name="name" placeholder="Give any Name to Video" class="form-control input-md" type="text">
+							</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" style="float:left">Close</button>
+						<button type='button' class="btn btn-success" value='Add !!' onclick='AjaxAdder()' data-dismiss="modal">Add !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Create Playlist </b></h4>
+					</div>
+					<div class="modal-body">
+						<form id='creator'method="POST">
+  								<label class="col-md-4 control-label" for="textinput">Enter playlist name</label>
+  										<input id="textinput" name="title" placeholder="Name your Playlist" class="form-control input-md" type="text">
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" style="float:left">Close</button>
+						<button type='button' value='Add !!' class="btn btn-success" onclick='PlayListAdder()' data-dismiss="modal">Add !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal2">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Add a Video</b></h4>
+					</div>
+					<div class="modal-body">
+						<form id='suri-adder'>
+  							<label class="col-md-4 control-label" for="textinput">Select a Playlist </label>
+  							<br>
+  							<br>
+							<select name="playlist_id">
+								{% for i in range(no_playlists) %}
+								<option name="playlist_id" value="{{arr_ids[i]}}">{{arr_titles[i]}}</option>
+								{% endfor %}
+							</select>
+  							<br>
+							<br>
+  								<label class="col-md-4 control-label" for="textinput">URL </label>
+  										<input id="textinput" name="url" placeholder="Enter url here" class="form-control input-md" type="text">
+  										<br>
+  								<label class="col-md-4 control-label" for="textinput">Name </label>
+  										<input id="textinput" name="name" placeholder="Give a Name to the Video" class="form-control input-md" type="text">
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" style="float:left">Close</button>
+						<button type='button' value='Add !!' class="btn btn-success" onclick='AjaxAddSuri()' data-dismiss="modal">Add !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal3">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Delete Playlist</b></h4>
+					</div>
+					<div class="modal-body">
+						<form id='suri-delete'>
+  							<label class="col-md-4 control-label" for="textinput">Select a Playlist </label>
+  							<br>
+  							<br>
+							<select name="playlist_id">
+								{% for i in range(no_playlists) if arr_titles[i] != "recent" and arr_titles[i] !="favorites" and arr_titles[i] != "watch_later"%}
+								<option name="playlist_id" value="{{arr_ids[i]}}">{{arr_titles[i]}}</option>
+								{% endfor %}
+							</select>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-danger" style="float:left">Close</button>
+						<button type='button' value='Delete !!' onclick='AjaxDeleteSuri()' class="btn btn-success" data-dismiss="modal">Delete !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal4">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Delete a Video from all Playlists</b></h4>
+					</div>
+					<div class="modal-body"	>
+						<form id='suri-delete-url-global'>
+  							<label class="col-md-4 control-label" for="textinput">Select a Video </label>
+  							<br>
+  							<br>
+							<select name="url_id">
+								{% for i in range(arr_urls_length)%}
+								<option name="url_id" value="{{saketh[i].url_id}}">{{saketh[i].name}}</option>
+								{% endfor %}
+							</select>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-danger" style="float:left">Close</button>
+						<button type='button' value='Delete !!' data-dismiss="modal" class="btn btn-success" onclick='AjaxDeleteUrlglobal()'>Delete !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal5">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Delete a Video from a Playlist</b></h4>
+					</div>
+					<div class="modal-body">
+						<form id='suri-delete-url-local'>
+  							<label class="col-md-4 control-label" for="textinput">Select a Playlist </label>
+							<br>
+							<br>
+							<select name="playlist_id">
+								{% for i in range(no_playlists) if arr_titles[i] != "recent" %}
+								<option name="playlist_id" value="{{arr_ids[i]}}">{{arr_titles[i]}}</option>
+								{% endfor %}
+							</select>
+							<br>
+							<br>
+  							<label class="col-md-4 control-label" for="textinput">Url </label>
+  										<input id="textinput" name="url_id" placeholder="Enter the URL to be deleted" class="form-control input-md" type="text">  
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-danger" style="float:left">Close</button>
+						<button type='button' value='Delete !!' data-dismiss="modal" class="btn btn-success" onclick='AjaxDeleteSuriLocal()'>Delete !!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="Modal6">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 style="text-align:center"><b>Rename a Playlist</b></h4>
+					</div>
+					<div class="modal-body">
+		 				 <form id='suri-edit'>
+  							<label class="col-md-4 control-label" for="textinput">Select a Playlist </label>
+							  <br>
+							  <br>
+							  <select name="playlist_id">
+								  {% for i in range(no_playlists) if arr_titles[i] != "recent" and arr_titles[i] !="favorites" and arr_titles[i] != "watch_later"%}
+								  <option name="playlist_id" value="{{arr_ids[i]}}">{{arr_titles[i]}}</option>
+								  {% endfor %}
+							  </select>
+							  <br>
+							  <br>
+  							<label class="col-md-4 control-label" for="textinput">Enter new name</label>
+  										<input id="textinput" name="title" class="form-control input-md" type="text">
+		  				</form>
+	  				</div>
+					<div class="modal-footer">
+						<button type="button" data-dismiss="modal" class="btn btn-danger" style="float:left">Close</button>
+						<button type='button' value='Edit' data-dismiss="modal" class="btn btn-success" onclick='AjaxEditSuri()'>Edit !!</button>
+					</div>
+	  			</div>
+	  		</div>
+	  	</div>
+
+	  <script type="text/javascript">
+var player=$('.shide');
+function hide(){
+	player.addClass("hidden");
+}
+function show(){
+	player.removeClass("hidden");
+}
+
+function resize(){
+	var x = $(document).height();
+	$("#lefty").height(x);
+}
+	$(window).load(function() {
+		  setTimeout(function() {
+			resize();		
+		}, 1000);
+	});
+	  </script>
+	  	</body>
+</html>

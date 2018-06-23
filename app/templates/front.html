@@ -1,0 +1,113 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" style="margin-top:-5px">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<ul class="nav navbar-nav">
+				<li><img src="../static/css/vd_short.png" style="height:50px"></img></li>
+				<li><a class="navbar-brand" id="front_logo" style="font-size:25px;padding-bottom:20px;margin-top:10px">&nbsp;&nbsp; Video Gallery</a></li>
+			</ul>
+		</div>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a id="front_login" href="#myModal1" data-toggle="modal" data-target="#myModal1"  style="font-size:20px;margin-top:10px"><span class="glyphicon glyphicon-log-in"></span>Log-in</a></li>
+			<li><a id="front_register" href="#myModal2" data-toggle="modal" data-target="#myModal2"  style="margin-top:10px;font-size:20px"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+		</ul>
+	</div>
+</nav>
+
+<div class="modal fade" id="myModal1">
+	<div class="modal-dialog">
+		<div class="modal-body">
+			<div class="form">
+				<div class="tab-content">
+					<form method="POST" id="login">
+						<div class="field-wrap">
+							<label class="icon-envelope" for="login-email">
+								Email Address<span class="req">*</span>
+							</label>
+							<input type="email" style="font-size:19px" required autocomplete="off" id="login-email" name="email" />
+						</div>
+
+						<div class="field-wrap">
+							<label class="icon-shield" for="login-password">
+								Password<span class="req">*</span>
+							</label>
+							<input type="password" style="font-size:19px" required autocomplete="off" id="login-password" name="password" />
+						</div>
+						<button id="btn-1" type="submit" class="button button-block" data-dismiss="modal" >Login</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$('#btn-1').on("click",function(){login();})
+</script>
+<script src="../static/js/logReg.js"></script>
+<div class="modal fade" id="myModal2">
+	<div class="modal-dialog">
+		<div class="modal-body">
+			<div class="form">
+				<div class="tab-content">
+					<form method="POST" id='register'>
+						<div class="field-wrap">
+							<label class="icon-user" for="register-name">
+								Name<span class="req">*</span>
+							</label>
+							<input style="font-size:19px;"  type="text"  id="register-name" name="name" required autocomplete="off" />
+						</div>
+
+						<div class="field-wrap">
+							<label class="icon-envelope" for="register-email">
+								Email Address<span class="req">*</span>
+							</label>
+							<input type="email"  style="font-size:19px" id="register-email" name="email" required autocomplete="off"/>
+						</div>
+
+						<div class="field-wrap">
+							<label class="icon-shield" for="register-password">
+								Set A Password<span class="req">*</span>
+							</label>
+							<input type="password"  style="font-size:19px" id="register-password" name="password" required autocomplete="off"/>
+						</div>
+
+						<button type="submit" id='btn-3' class="button button-block" data-dismiss="modal" >Register</button>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script>$('#btn-3').on("click",function(){register();})</script>
+<script>$('#front_logo').on('click',function(){showhome();});</script>
+<script>$('#front_home').on('click',function(){showhome();});</script>
+
+<div class="slider fullscreen" style="padding-top: 50px">
+      <ul class="slides">
+        <li>
+          <img src="../static/css/toy.jpg" >
+        </li>
+        <li>
+          <img src="../static/css/fbstswft.jpg">
+        </li>
+        <li>
+          <img src="../static/css/pete.jpg">
+        </li>
+        <li>
+          <img src="../static/css/loki.jpg">
+        </li>
+        <li>
+          <img src="../static/css/wf.jpg">
+        </li>
+      </ul>
+    </div>
+    </div>
+    <!--Import jQuery before materialize.js-->
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script type="text/javascript" src="static/js/materialize.min.js"></script>
+      <script>
+        $(slides).css("height", "100%"); //passing value as null.
+      </script>
+
